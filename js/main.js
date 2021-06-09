@@ -17,10 +17,7 @@ const getRandomNumberFloat = (min, max, digits) => {
     throw new RangeError('One of parametr could not less 0');
   }
 
-  // min = Math.ceil(min);
-  // max = Math.floor(max);
-
-  return (Math.random() * (max - min) + min).toFixed(digits);
+  return Number((Math.random() * (max - min) + min).toFixed(digits));
 };
 
 getRandomNumber(1, 12);
@@ -28,72 +25,97 @@ getRandomNumberFloat(3, 10, 3);
 
 
 // Задание №8
+const AVATAR_IMAGES = [
+  'img/avatars/user01.png',
+  'img/avatars/user02.png',
+  'img/avatars/user03.png',
+  'img/avatars/user04.png',
+  'img/avatars/user05.png',
+  'img/avatars/user06.png',
+  'img/avatars/user07.png',
+  'img/avatars/user08.png',
+  'img/avatars/user09.png',
+  'img/avatars/user10.png',
+];
+
 const TITLES = [
   'Офис',
   '2-ух комнатная квартира',
   '3-ех комнатная квартира',
   'Однокомнатная квартира',
-  'Помещение для аренды в торговом центре'];
+  'Помещение для аренды в торговом центре',
+];
 
 const TYPES = [
-  'palace', 'flat', 'house', 'bunglow', 'hotel'];
+  'palace', 'flat', 'house', 'bunglow', 'hotel',
+];
 
 const CHECKS = [
-  '12:00', '13:00', '14:00'];
+  '12:00', '13:00', '14:00',
+];
 
 const FEATURES = [
   'wifi', 'dishwasher',
   'parking', 'washer',
-  'elevator', 'conditioner'];
+  'elevator', 'conditioner',
+];
 
 const DESCRIPTIONS = [
   'кухня',
   'ванная',
   'гостинная',
   'туалет',
-  'спальня'];
+  'спальня',
+];
 
 const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
+];
+const locationRandomLat = getRandomNumberFloat(35.65000, 35.70000, 5);
+const locationRandomLng = getRandomNumberFloat(139.70000, 139.80000, 5);
 
-const getRandomArrayElements = (elements) => elements[getRandomNumber(0, elements.length - 1)];
+const getRandomArrayElements = (items) => items[getRandomNumber(0, items.length - 1)];
 
 const createAuthor = () => {
-  const randomNumber = getRandomNumber(1, 8);
-  return { avatar: `img/avatars/user0${randomNumber}.png`};
+  const arr = [];
+  if (arr.length === 0) {
+    AVATAR_IMAGES.forEach((value) => arr.push(value));
+  }
+
+  const index = Math.floor(Math.random() * arr.length);
+  const id = arr[index];
+
+  arr.splice(index, 1);
+
+  return id;
 };
 
-const createOffer = () =>
-  ({
-    title: getRandomArrayElements(TITLES),
-    address: `${getRandomNumber(0, 100)}, ${getRandomNumber(0, 100)}`,
-    price: getRandomNumber(1, 1000),
-    types: getRandomArrayElements(TYPES),
-    rooms: getRandomNumber(1, 5),
-    guests: getRandomNumber(1, 15),
-    checkin: getRandomArrayElements(CHECKS),
-    checkout: getRandomArrayElements(CHECKS),
-    features: FEATURES.filter(() => Boolean(getRandomNumber(0, 1))),
-    description: getRandomArrayElements(DESCRIPTIONS),
-    photos: PHOTOS.filter(() => Boolean(getRandomNumber(0, 1)))}
-  );
+const createOffer = () => ({
+  title: getRandomArrayElements(TITLES),
+  address: `${locationRandomLat}, ${locationRandomLng}`,
+  price: getRandomNumber(1, 1000),
+  types: getRandomArrayElements(TYPES),
+  rooms: getRandomNumber(1, 5),
+  guests: getRandomNumber(1, 15),
+  checkin: getRandomArrayElements(CHECKS),
+  checkout: getRandomArrayElements(CHECKS),
+  features: FEATURES.filter(() => Boolean(getRandomNumber(0, 1))),
+  description: getRandomArrayElements(DESCRIPTIONS),
+  photos: PHOTOS.filter(() => Boolean(getRandomNumber(0, 1))),
+});
 
-const createLocation = () =>
-  ({
-    lat: getRandomNumberFloat(35.65000, 35.70000, 5),
-    lng: getRandomNumberFloat(139.70000, 139.80000, 5)}
-  );
+const createLocation = () => ({
+  lat: locationRandomLat,
+  lng: locationRandomLng,
+});
 
-const createObject = () =>
-  ({
-    author: createAuthor(),
-    offer: createOffer(),
-    location: createLocation()}
-  );
+const createObject = () => ({
+  author: createAuthor(),
+  offer: createOffer(),
+  location: createLocation(),
+});
 
-const similarObjectCount = (count) => count;
-
-const similarObject = new Array(similarObjectCount(10)).fill(null).map(() => createObject());
-similarObject;
+const similarObjects = new Array(10).fill(null).map(() => createObject());
+similarObjects;
