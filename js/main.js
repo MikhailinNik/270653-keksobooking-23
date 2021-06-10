@@ -91,14 +91,14 @@ const creatAuthor = (id) => {
 
 const createAdvert = (id) => {
   const latitude = getRandomNumberFloat(35.65000, 35.70000, 5);
-  const langtitude = getRandomNumberFloat(139.70000, 139.80000, 5);
+  const longitude = getRandomNumberFloat(139.70000, 139.80000, 5);
 
   return ({
     author: creatAuthor(id),
-    offer: createOffer(latitude, langtitude),
+    offer: createOffer(latitude, longitude),
     location: {
       lat: latitude,
-      lng: langtitude,
+      lng: longitude,
     },
   });
 };
