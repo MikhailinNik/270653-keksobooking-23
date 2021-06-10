@@ -63,43 +63,45 @@ const PHOTOS = [
 const locationRandomLat = getRandomNumberFloat(35.65000, 35.70000, 5);
 const locationRandomLng = getRandomNumberFloat(139.70000, 139.80000, 5);
 
-const getRandomArrayElements = (items) => items[getRandomNumber(0, items.length - 1)];
+const getRandomArrayItem = (items) => items[getRandomNumber(0, items.length - 1)];
 
 const createOffer = () => ({
-  title: getRandomArrayElements(TITLES),
+  title: getRandomArrayItem(TITLES),
   address: `${locationRandomLat}, ${locationRandomLng}`,
   price: getRandomNumber(1, 1000),
-  types: getRandomArrayElements(TYPES),
+  types: getRandomArrayItem(TYPES),
   rooms: getRandomNumber(1, 5),
   guests: getRandomNumber(1, 15),
-  checkin: getRandomArrayElements(CHECKS),
-  checkout: getRandomArrayElements(CHECKS),
+  checkin: getRandomArrayItem(CHECKS),
+  checkout: getRandomArrayItem(CHECKS),
   features: FEATURES.filter(() => Boolean(getRandomNumber(0, 1))),
-  description: getRandomArrayElements(DESCRIPTIONS),
+  description: getRandomArrayItem(DESCRIPTIONS),
   photos: PHOTOS.filter(() => Boolean(getRandomNumber(0, 1))),
 });
+
 
 const createLocation = () => ({
   lat: locationRandomLat,
   lng: locationRandomLng,
 });
 
-
-const createAdvert = (id) => {
+const creatAuthor = (id) => {
   if (id !== 10) {
     return ({
-      author: { avatar: `img/avatars/user${0}${id}.png`},
-      offer: createOffer(),
-      location: createLocation(),
+      avatar: `img/avatars/user0${id}.png`,
     });
   }
 
   return ({
-    author: { avatar: `img/avatars/user${id}.png`},
-    offer: createOffer(),
-    location: createLocation(),
+    avatar: `img/avatars/user${id}.png`,
   });
 };
 
-const similarObjects = new Array(10).fill(null).map((value, idx) => createAdvert(idx + 1));
-similarObjects;
+const createAdvert = (id) => ({
+  author: creatAuthor(id),
+  offer: createOffer(),
+  location: createLocation(),
+});
+
+const adverts = Array.from({ length: 10 }, (value, idx) => createAdvert(idx + 1));
+adverts;
