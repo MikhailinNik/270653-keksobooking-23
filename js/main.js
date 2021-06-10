@@ -25,19 +25,6 @@ getRandomNumberFloat(3, 10, 3);
 
 
 // Задание №8
-const AVATAR_IMAGES = [
-  'img/avatars/user01.png',
-  'img/avatars/user02.png',
-  'img/avatars/user03.png',
-  'img/avatars/user04.png',
-  'img/avatars/user05.png',
-  'img/avatars/user06.png',
-  'img/avatars/user07.png',
-  'img/avatars/user08.png',
-  'img/avatars/user09.png',
-  'img/avatars/user10.png',
-];
-
 const TITLES = [
   'Офис',
   '2-ух комнатная квартира',
@@ -78,20 +65,6 @@ const locationRandomLng = getRandomNumberFloat(139.70000, 139.80000, 5);
 
 const getRandomArrayElements = (items) => items[getRandomNumber(0, items.length - 1)];
 
-const createAuthor = () => {
-  const arr = [];
-  if (arr.length === 0) {
-    AVATAR_IMAGES.forEach((value) => arr.push(value));
-  }
-
-  const index = Math.floor(Math.random() * arr.length);
-  const id = arr[index];
-
-  arr.splice(index, 1);
-
-  return id;
-};
-
 const createOffer = () => ({
   title: getRandomArrayElements(TITLES),
   address: `${locationRandomLat}, ${locationRandomLng}`,
@@ -111,11 +84,22 @@ const createLocation = () => ({
   lng: locationRandomLng,
 });
 
-const createObject = () => ({
-  author: createAuthor(),
-  offer: createOffer(),
-  location: createLocation(),
-});
 
-const similarObjects = new Array(10).fill(null).map(() => createObject());
+const createAdvert = (id) => {
+  if (id !== 10) {
+    return ({
+      author: { avatar: `img/avatars/user${0}${id}.png`},
+      offer: createOffer(),
+      location: createLocation(),
+    });
+  }
+
+  return ({
+    author: { avatar: `img/avatars/user${id}.png`},
+    offer: createOffer(),
+    location: createLocation(),
+  });
+};
+
+const similarObjects = new Array(10).fill(null).map((value, idx) => createAdvert(idx + 1));
 similarObjects;
