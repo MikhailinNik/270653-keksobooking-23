@@ -1,4 +1,4 @@
-import {getRandomNumber, getRandomNumberFloat, getRandomArrayItem} from './util.js';
+import {getRandomNumber, getRandomNumberFloat, getRandomArrayItem} from './random.js';
 
 const TITLES = [
   'Офис',
