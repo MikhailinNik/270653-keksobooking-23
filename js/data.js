@@ -1,4 +1,4 @@
-import {getRandomNumber, getRandomNumberFloat, getRandomArrayItem} from './util.js';
+import {getRandomNumber, getRandomNumberFloat, getRandomArrayItem} from './random.js';
 
 const TITLES = [
   'Офис',
@@ -9,7 +9,7 @@ const TITLES = [
 ];
 
 const TYPES = [
-  'palace', 'flat', 'house', 'bunglow', 'hotel',
+  'flat', 'bungalow', 'house', 'palace', 'hotel',
 ];
 
 const CHECKS = [
@@ -78,4 +78,4 @@ const createAdvert = (id) => {
 
 const adverts = Array.from({ length: 10 }, (value, idx) => createAdvert(idx + 1));
 
-export {adverts};
+export {adverts, FEATURES};
