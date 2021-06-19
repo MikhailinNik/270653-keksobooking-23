@@ -40,17 +40,22 @@ const createOffer = (coord1, coord2) => ({
   title: getRandomArrayItem(TITLES),
   address: `${coord1}, ${coord2}`,
   price: getRandomNumber(1, 1000),
-  types: getRandomArrayItem(TYPES),
+  type: getRandomArrayItem(TYPES.splice(0, TYPES.length,
+    'Квартира',
+    'Бунгало',
+    'Дом',
+    'Дворец',
+    'Отель')),
   rooms: getRandomNumber(1, 5),
   guests: getRandomNumber(1, 15),
   checkin: getRandomArrayItem(CHECKS),
   checkout: getRandomArrayItem(CHECKS),
   features: FEATURES.filter(() => Boolean(getRandomNumber(0, 1))),
   description: getRandomArrayItem(DESCRIPTIONS),
-  photos: PHOTOS.filter(() => Boolean(getRandomNumber(0, 1))),
+  photo: PHOTOS.filter(() => Boolean(getRandomNumber(0, 1))),
 });
 
-const creatAuthor = (id) => {
+const createAuthor = (id) => {
   if (id !== 10) {
     return ({
       avatar: `img/avatars/user0${id}.png`,
@@ -67,7 +72,7 @@ const createAdvert = (id) => {
   const longitude = getRandomNumberFloat(139.70000, 139.80000, 5);
 
   return ({
-    author: creatAuthor(id),
+    author: createAuthor(id),
     offer: createOffer(latitude, longitude),
     location: {
       lat: latitude,
@@ -76,6 +81,6 @@ const createAdvert = (id) => {
   });
 };
 
-const adverts = Array.from({ length: 10 }, (value, idx) => createAdvert(idx + 1));
+const adverts = Array.from({ length: 1 }, (value, idx) => createAdvert(idx + 1));
 
-export {adverts, FEATURES};
+export {adverts};
