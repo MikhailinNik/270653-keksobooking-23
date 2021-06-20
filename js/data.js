@@ -1,4 +1,4 @@
-import {getRandomNumber, getRandomNumberFloat, getRandomArrayItem} from './random.js';
+import { getRandomNumber, getRandomNumberFloat, getRandomArrayItem } from './random.js';
 
 const TITLES = [
   'Офис',
@@ -40,19 +40,14 @@ const createOffer = (coord1, coord2) => ({
   title: getRandomArrayItem(TITLES),
   address: `${coord1}, ${coord2}`,
   price: getRandomNumber(1, 1000),
-  type: getRandomArrayItem(TYPES.splice(0, TYPES.length,
-    'Квартира',
-    'Бунгало',
-    'Дом',
-    'Дворец',
-    'Отель')),
+  type: getRandomArrayItem(TYPES),
   rooms: getRandomNumber(1, 5),
   guests: getRandomNumber(1, 15),
   checkin: getRandomArrayItem(CHECKS),
   checkout: getRandomArrayItem(CHECKS),
   features: FEATURES.filter(() => Boolean(getRandomNumber(0, 1))),
   description: getRandomArrayItem(DESCRIPTIONS),
-  photo: PHOTOS.filter(() => Boolean(getRandomNumber(0, 1))),
+  photos: PHOTOS.filter(() => Boolean(getRandomNumber(0, 1))),
 });
 
 const createAuthor = (id) => {
@@ -81,6 +76,6 @@ const createAdvert = (id) => {
   });
 };
 
-const adverts = Array.from({ length: 1 }, (value, idx) => createAdvert(idx + 1));
+const adverts = Array.from({ length: 10 }, (value, idx) => createAdvert(idx + 1));
 
 export {adverts};
