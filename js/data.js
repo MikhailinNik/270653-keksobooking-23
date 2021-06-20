@@ -1,4 +1,4 @@
-import {getRandomNumber, getRandomNumberFloat, getRandomArrayItem} from './util.js';
+import { getRandomNumber, getRandomNumberFloat, getRandomArrayItem } from './random.js';
 
 const TITLES = [
   'Офис',
@@ -9,7 +9,7 @@ const TITLES = [
 ];
 
 const TYPES = [
-  'palace', 'flat', 'house', 'bunglow', 'hotel',
+  'flat', 'bungalow', 'house', 'palace', 'hotel',
 ];
 
 const CHECKS = [
@@ -40,7 +40,7 @@ const createOffer = (coord1, coord2) => ({
   title: getRandomArrayItem(TITLES),
   address: `${coord1}, ${coord2}`,
   price: getRandomNumber(1, 1000),
-  types: getRandomArrayItem(TYPES),
+  type: getRandomArrayItem(TYPES),
   rooms: getRandomNumber(1, 5),
   guests: getRandomNumber(1, 15),
   checkin: getRandomArrayItem(CHECKS),
@@ -50,7 +50,7 @@ const createOffer = (coord1, coord2) => ({
   photos: PHOTOS.filter(() => Boolean(getRandomNumber(0, 1))),
 });
 
-const creatAuthor = (id) => {
+const createAuthor = (id) => {
   if (id !== 10) {
     return ({
       avatar: `img/avatars/user0${id}.png`,
@@ -67,7 +67,7 @@ const createAdvert = (id) => {
   const longitude = getRandomNumberFloat(139.70000, 139.80000, 5);
 
   return ({
-    author: creatAuthor(id),
+    author: createAuthor(id),
     offer: createOffer(latitude, longitude),
     location: {
       lat: latitude,

@@ -1,3 +1,5 @@
-import {adverts} from './data.js';
+import { adverts } from './data.js';
+import './card.js';
+import { addCard } from './map.js';
 
-adverts;
+addCard(adverts[6]);
