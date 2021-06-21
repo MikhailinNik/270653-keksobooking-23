@@ -1,3 +1,6 @@
+import { form, formContainer } from './form.js';
+import { formFilters, formFiltersContainer } from './filter.js';
+
 const setDisabledItem = (array, boolean) => array.forEach((item) => {
   item.disabled = boolean;
 });
@@ -21,4 +24,9 @@ const enableForm = (item, array) => {
   setDisabledItem(array, false);
 };
 
-export { disableForm, enableForm };
+disableForm(form, formContainer);
+enableForm(form, formContainer);
+
+disableForm(formFilters, formFiltersContainer);
+enableForm(formFilters, formFiltersContainer);
+
