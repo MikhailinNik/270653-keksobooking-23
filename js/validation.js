@@ -1,6 +1,6 @@
 const MIN_TITLE_LENGTH = 30;
 
-const MIN_PRICE = {
+const typeToMinPrice = {
   'bungalow': 0,
   'flat': 1000,
   'hotel': 3000,
@@ -8,7 +8,7 @@ const MIN_PRICE = {
   'palace': 10000,
 };
 
-const CAPACITY_ROOM = {
+const roomToCapacity = {
   '1': [2],
   '2': [1, 2],
   '3': [0, 1, 2],
@@ -20,6 +20,19 @@ const inputPrice = document.querySelector('#price');
 const selectType = document.querySelector('#type');
 const selectRoomNumber = document.querySelector('#room_number');
 const selectCapacity = document.querySelector('#capacity');
+const options = selectRoomNumber.querySelectorAll('option');
+const optionsCapacity = selectCapacity.querySelectorAll('option');
+
+const inputListener = (evtInput, value) => {
+    if (evtInput < value) {
+      inputPrice.min = value;
+    }
+
+    inputPrice.setCustomValidity('');
+
+  inputPrice.reportValidity();
+};
+
 
 inputTitle.addEventListener('input', () => {
   const valueLength = inputTitle.value.length;
@@ -34,34 +47,50 @@ inputTitle.addEventListener('input', () => {
 });
 
 selectType.addEventListener('change', (evt) => {
-  const value = MIN_PRICE[evt.target.value];
+  const value = typeToMinPrice[evt.target.value];
 
-  inputPrice.setAttribute('min', value);
-  inputPrice.setAttribute('placeholder', value);
-  inputPrice.addEventListener('input', (event) => {
-    if (event.target.value < value) {
-      inputPrice.setCustomValidity();
-    }
+  const priceValue = inputPrice.value;
 
-    inputPrice.setCustomValidity('');
+  inputPrice.min = value;
+  inputPrice.placeholder = value;
 
-    inputPrice.reportValidity();
-  });
+  inputPrice.addEventListener('input', inputListener(priceValue, value));
+  inputPrice.removeEventListener('input', inputListener());
+
 });
 
+inputPrice.addEventListener('input', () => {
+  if (inputPrice.value < typeToMinPrice.flat) {
+    inputPrice.min = 1000;
+  }
+
+  inputPrice.setCustomValidity('');
+  inputPrice.reportValidity();
+});
+
+
 selectRoomNumber.addEventListener('change', (evt) => {
-  const capacity = CAPACITY_ROOM[evt.target.value];
-  const options = selectCapacity.querySelectorAll('option');
+  const capacities = roomToCapacity[evt.target.value];
 
   options.forEach((item, index) => {
     selectCapacity[index].disabled = true;
     selectCapacity[index].selected = false;
   });
 
-  if (!capacity.includes(capacity)) {
-    capacity.forEach((item, index) => {
-      selectCapacity[capacity[index]].disabled = false;
-      selectCapacity[capacity[index]].selected = true;
+  if (!capacities.includes(capacities)) {
+    capacities.forEach((item, index) => {
+      selectCapacity[capacities[index]].disabled = false;
+      selectCapacity[capacities[index]].selected = true;
     });
   }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (options[0].selected) {
+    optionsCapacity.forEach((item, index) => {
+      selectCapacity[index].disabled = true;
+    });
+    selectCapacity[2].disabled = false;
+  }
+});
+
