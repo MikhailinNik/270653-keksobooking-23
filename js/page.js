@@ -1,27 +1,27 @@
 import { form, formContainer } from './form.js';
 import { formFilters, formFiltersContainer } from './filter.js';
 
-const setDisabledItem = (array, boolean) => array.forEach((item) => {
+const setDisabledItem = (container, boolean) => container.forEach((item) => {
   item.disabled = boolean;
 });
 
 
-const disableForm = (item, array) => {
+const disableForm = (item, container) => {
   if (!item.classList.contains(item.classList[1])) {
     item.classList.add(`${item.classList}--disabled`);
   }
 
-  setDisabledItem(array, true);
+  setDisabledItem(container, true);
 };
 
-const enableForm = (item, array) => {
+const enableForm = (item, container) => {
   if (!item.classList.contains(item.classList[1])) {
     item.classList.remove(`${item.classList}--disabled`);
   }
 
   item.classList.remove(item.classList[1]);
 
-  setDisabledItem(array, false);
+  setDisabledItem(container, false);
 };
 
 disableForm(form, formContainer);
