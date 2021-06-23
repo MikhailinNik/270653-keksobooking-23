@@ -24,11 +24,11 @@ const options = selectRoomNumber.querySelectorAll('option');
 const optionsCapacity = selectCapacity.querySelectorAll('option');
 
 const inputListener = (evtInput, value) => {
-    if (evtInput < value) {
-      inputPrice.min = value;
-    }
+  if (evtInput < value) {
+    inputPrice.min = value;
+  }
 
-    inputPrice.setCustomValidity('');
+  inputPrice.setCustomValidity('');
 
   inputPrice.reportValidity();
 };
