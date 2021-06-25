@@ -14,6 +14,9 @@ const selectType = document.querySelector('#type');
 const selectRoomNumber = document.querySelector('#room_number');
 const selectCapacity = document.querySelector('#capacity');
 const capacityList = document.querySelectorAll('#capacity option');
+const timeIn = document.querySelector('#timein');
+const timeOut = document.querySelector('#timeout');
+const timeOutList = document.querySelectorAll('#timeout option');
 
 const roomToCapacity = {
   '1': [1],
@@ -92,7 +95,25 @@ selectRoomNumber.addEventListener('change', () => {
   validateCapacity();
 });
 
+
+const validateTimeOut = () => {
+  const timeValue = timeIn.value;
+
+  if (timeValue !== timeOut.value) {
+    timeOut.value = timeValue;
+  }
+
+  timeOutList.forEach((option) => {
+    option.disabled = !timeValue.includes(option.value);
+  });
+};
+
+timeIn.addEventListener('change', () => {
+  validateTimeOut();
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   setInputPrice();
   validateCapacity();
+  validateTimeOut();
 });
