@@ -8,89 +8,91 @@ const typeToMinPrice = {
   'palace': 10000,
 };
 
-const roomToCapacity = {
-  '1': [2],
-  '2': [1, 2],
-  '3': [0, 1, 2],
-  '100': [3],
-};
-
 const inputTitle = document.querySelector('#title');
 const inputPrice = document.querySelector('#price');
 const selectType = document.querySelector('#type');
 const selectRoomNumber = document.querySelector('#room_number');
 const selectCapacity = document.querySelector('#capacity');
-const options = selectRoomNumber.querySelectorAll('option');
-const optionsCapacity = selectCapacity.querySelectorAll('option');
+const capacityList = document.querySelectorAll('#capacity option');
 
-const inputListener = (evtInput, value) => {
-  if (evtInput < value) {
-    inputPrice.min = value;
-  }
-
-  inputPrice.setCustomValidity('');
-
-  inputPrice.reportValidity();
+const roomToCapacity = {
+  '1': [1],
+  '2': [1, 2],
+  '3': [1, 2, 3],
+  '100': [0],
 };
 
+const capacityToIndex = {};
+
+capacityList.forEach((option) => {
+  capacityToIndex[option.value] = option.index;
+});
 
 inputTitle.addEventListener('input', () => {
   const valueLength = inputTitle.value.length;
 
-  if (valueLength < MIN_TITLE_LENGTH) {
-    inputTitle.setCustomValidity(MIN_TITLE_LENGTH - valueLength);
-  }
+  const errorMessage = valueLength < MIN_TITLE_LENGTH
+    ? `${MIN_TITLE_LENGTH} - ${valueLength}`
+    : '';
 
-  inputTitle.setCustomValidity('');
-
+  inputTitle.setCustomValidity(errorMessage);
   inputTitle.reportValidity();
 });
 
-selectType.addEventListener('change', (evt) => {
-  const value = typeToMinPrice[evt.target.value];
+const setInputPrice = () => {
+  const minPrice = typeToMinPrice[selectType.value];
 
-  const priceValue = inputPrice.value;
+  inputPrice.min = minPrice;
+  inputPrice.placeholder = minPrice;
+};
 
-  inputPrice.min = value;
-  inputPrice.placeholder = value;
+const onSelectTypeChange = () => {
+  setInputPrice();
+};
 
-  inputPrice.addEventListener('input', inputListener(priceValue, value));
-  inputPrice.removeEventListener('input', inputListener());
+selectType.addEventListener('change', onSelectTypeChange);
 
+const validateInputPrice = (priceValue, minPrice) => {
+  if (priceValue < minPrice) {
+    inputPrice.setCustomValidity(`Пож. минимум ${minPrice}`);
+    inputPrice.reportValidity();
+  }
+};
+
+const onInputPriceInput = (evt) => {
+  const minPrice = +evt.target.min;
+  const priceValue = evt.target.valueAsNumber;
+
+  validateInputPrice(priceValue, minPrice);
+};
+
+inputPrice.addEventListener('focus', () => {
+  inputPrice.addEventListener('input', onInputPriceInput);
 });
 
-inputPrice.addEventListener('input', () => {
-  if (inputPrice.value < typeToMinPrice.flat) {
-    inputPrice.min = 1000;
+inputPrice.addEventListener('blur', () => {
+  inputPrice.removeEventListener('input', onInputPriceInput);
+});
+
+const validateCapacity = () => {
+  const capacities = roomToCapacity[selectRoomNumber.value];
+
+  if (!capacities.includes(+selectCapacity.value)) {
+    const maxCapactity = capacities[capacities.length - 1];
+
+    selectCapacity.selectedIndex = capacityToIndex[maxCapactity];
   }
 
-  inputPrice.setCustomValidity('');
-  inputPrice.reportValidity();
-});
-
-
-selectRoomNumber.addEventListener('change', (evt) => {
-  const capacities = roomToCapacity[evt.target.value];
-
-  options.forEach((item, index) => {
-    selectCapacity[index].disabled = true;
-    selectCapacity[index].selected = false;
+  capacityList.forEach((option) => {
+    option.disabled = !capacities.includes(+option.value);
   });
+};
 
-  if (!capacities.includes(capacities)) {
-    capacities.forEach((item, index) => {
-      selectCapacity[capacities[index]].disabled = false;
-      selectCapacity[capacities[index]].selected = true;
-    });
-  }
+selectRoomNumber.addEventListener('change', () => {
+  validateCapacity();
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  if (options[0].selected) {
-    optionsCapacity.forEach((item, index) => {
-      selectCapacity[index].disabled = true;
-    });
-    selectCapacity[2].disabled = false;
-  }
+  setInputPrice();
+  validateCapacity();
 });
-
