@@ -59,6 +59,8 @@ const validateInputPrice = (priceValue, minPrice) => {
   if (priceValue < minPrice) {
     inputPrice.setCustomValidity(`Пож. минимум ${minPrice}`);
     inputPrice.reportValidity();
+  } else {
+    inputPrice.setCustomValidity('');
   }
 };
 

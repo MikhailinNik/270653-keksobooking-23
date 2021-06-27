@@ -12,5 +12,5 @@ const deactivatePage = () => {
 };
 
 deactivatePage();
-activatePage();
+export { activatePage };
 
