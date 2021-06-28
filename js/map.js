@@ -6,13 +6,13 @@ const TokyoCenterCoord = {
   LNG: 139.692,
 };
 
-const mainIcon = {
+const MAIN_ICON = {
   path: './img/main-pin.svg',
   size: [52, 52],
   anchor: [26, 52],
 };
 
-const otherIcon = {
+const OTHER_ICON = {
   path: './img/pin.svg',
   size: [40, 40],
   anchor: [20, 40],
@@ -20,10 +20,15 @@ const otherIcon = {
 
 const inputAddress = document.querySelector('#address');
 
+const renderInputAddress = (marker) => {
+  const address = marker.getLatLng();
+  inputAddress.value = `${address.lat.toFixed(5)}, ${address.lng.toFixed(5)}`;
+};
+
 const mainPinIcon = L.icon({
-  iconUrl: mainIcon.path,
-  iconSize: mainIcon.size,
-  iconAnchor: mainIcon.anchor,
+  iconUrl: MAIN_ICON.path,
+  iconSize: MAIN_ICON.size,
+  iconAnchor: MAIN_ICON.anchor,
 });
 
 const specialMarker = L.marker(
@@ -41,9 +46,8 @@ const map = L.map('map-canvas');
 
 specialMarker.addTo(map);
 
-specialMarker.on('drag', (evt) => {
-  const address = evt.target.getLatLng();
-  inputAddress.value = `${address.lat.toFixed(5)},${address.lng.toFixed(5)}`;
+specialMarker.on('drag', () => {
+  renderInputAddress(specialMarker);
 });
 
 const createMarker = (advert) => {
@@ -52,9 +56,9 @@ const createMarker = (advert) => {
   const lng = advert.location.lng;
 
   const icon = L.icon({
-    iconUrl: otherIcon.path,
-    iconSize: otherIcon.size,
-    iconAnchor: otherIcon.anchor,
+    iconUrl: OTHER_ICON.path,
+    iconSize: OTHER_ICON.size,
+    iconAnchor: OTHER_ICON.anchor,
   });
 
   const marker = L.marker(
@@ -73,15 +77,14 @@ const createMarker = (advert) => {
   };
 };
 
-const getMarkers = (adverts) => {
+const showMarkers = (adverts) => {
   adverts.forEach(createMarker);
 };
 
-export { getMarkers };
+export { showMarkers };
 
 map.on('load', () => {
-  const address = specialMarker.getLatLng();
-  inputAddress.value = `${address.lat.toFixed(5)},${address.lng.toFixed(5)}`;
+  renderInputAddress(specialMarker);
   activatePage();
 })
   .setView({
