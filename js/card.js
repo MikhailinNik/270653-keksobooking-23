@@ -1,3 +1,4 @@
+
 const offerTypeEnToRu = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -23,6 +24,7 @@ const renderCardPhotos = (photoContainer, photos) => {
 };
 
 const renderCard = (advert) => {
+
   const offer = advert.offer;
   const author = advert.author;
 
@@ -52,3 +54,5 @@ const renderCard = (advert) => {
 export {
   renderCard
 };
+
+

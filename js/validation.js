@@ -35,7 +35,7 @@ inputTitle.addEventListener('input', () => {
   const valueLength = inputTitle.value.length;
 
   const errorMessage = valueLength < MIN_TITLE_LENGTH
-    ? `${MIN_TITLE_LENGTH} - ${valueLength}`
+    ? `Осталось ${MIN_TITLE_LENGTH - valueLength} симв.`
     : '';
 
   inputTitle.setCustomValidity(errorMessage);
@@ -57,8 +57,9 @@ selectType.addEventListener('change', onSelectTypeChange);
 
 const validateInputPrice = (priceValue, minPrice) => {
   if (priceValue < minPrice) {
-    inputPrice.setCustomValidity(`Пож. минимум ${minPrice}`);
     inputPrice.reportValidity();
+  } else {
+    inputPrice.setCustomValidity('');
   }
 };
 
