@@ -96,8 +96,6 @@ const showMarkers = (adverts) => {
   adverts.forEach(createMarker);
 };
 
-export { showMarkers };
-
 map.on('load', () => {
   renderInputAddress(specialMarker);
   activatePage();
@@ -125,4 +123,11 @@ formReset.addEventListener('click', (evt) => {
   setDefaultCoordinates();
 });
 
+export {
+  TokyoCenterCoord,
+  showMarkers,
+  resetFormAndFilters,
+  setDefaultAddressCoordinates,
+  setDefaultCoordinates
+};
 

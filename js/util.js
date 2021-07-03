@@ -1,4 +1,3 @@
-const ESCAPE_KEY = 'Escape';
 const ALERT_SHOW_TIME = 5000;
 
 const setDisabled = (element) => {
@@ -7,10 +6,6 @@ const setDisabled = (element) => {
 
 const unsetDisabled = (element) => {
   element.disabled = false;
-};
-
-const isEscEvent = (evt) => {
-  evt.key === ESCAPE_KEY;
 };
 
 const showAlert = (message) => {
@@ -34,4 +29,4 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export { setDisabled, unsetDisabled, isEscEvent, showAlert };
+export { setDisabled, unsetDisabled, showAlert };

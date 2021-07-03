@@ -12,6 +12,7 @@ const photoTemplate = cardTemplate.querySelector('.popup__photos img');
 const createFeatureTemplate = (feature) => `<li class="popup__feature popup__feature--${feature}">`;
 
 const renderCardPhotos = (photoContainer, photos) => {
+  photoContainer.innerHTML = '';
   if (photos === undefined) {
     photoContainer.innerHTML = '';
   } else {
@@ -47,10 +48,6 @@ const renderCard = (advert) => {
   } else if (offer.features.length > 0)  {
     featureList.innerHTML = offer.features.map(createFeatureTemplate).join('');
   }
-  // featureList.innerHTML = '';
-  // if (offer.features.length > 0) {
-  //   featureList.innerHTML = offer.features.map(createFeatureTemplate).join('');
-  // }
 
   renderCardPhotos(popupPhotoContainer, offer.photos);
 
