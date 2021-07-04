@@ -1,4 +1,3 @@
-
 const offerTypeEnToRu = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -14,13 +13,16 @@ const createFeatureTemplate = (feature) => `<li class="popup__feature popup__fea
 
 const renderCardPhotos = (photoContainer, photos) => {
   photoContainer.innerHTML = '';
+  if (photos === undefined) {
+    photoContainer.innerHTML = '';
+  } else {
+    photos.forEach((photoUrl) => {
+      const photo = photoTemplate.cloneNode(true);
+      photo.src = photoUrl;
 
-  photos.forEach((photoUrl) => {
-    const photo = photoTemplate.cloneNode(true);
-    photo.src = photoUrl;
-
-    photoContainer.appendChild(photo);
-  });
+      photoContainer.appendChild(photo);
+    });
+  }
 };
 
 const renderCard = (advert) => {
@@ -41,8 +43,9 @@ const renderCard = (advert) => {
   card.querySelector('.popup__text--time').textContent = offer.checkin === undefined || offer.checkout === undefined ? '' : `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   card.querySelector('.popup__description').textContent = offer.description === undefined ? '' : offer.description;
 
-  featureList.innerHTML = '';
-  if (offer.features.length > 0) {
+  if (offer.features === undefined) {
+    featureList.innerHTML = '';
+  } else if (offer.features.length > 0)  {
     featureList.innerHTML = offer.features.map(createFeatureTemplate).join('');
   }
 

@@ -1,5 +1,7 @@
 import { renderCard } from './card.js';
 import { activatePage } from './page.js';
+import { form, formReset } from './form.js';
+import { formFilters } from './filter.js';
 
 const TokyoCenterCoord = {
   LAT: 35.6894,
@@ -42,6 +44,19 @@ const specialMarker = L.marker(
   },
 );
 
+const setDefaultCoordinates = () => {
+  specialMarker.setLatLng({
+    lat: TokyoCenterCoord.LAT,
+    lng: TokyoCenterCoord.LNG,
+  });
+};
+
+const setDefaultAddressCoordinates = () => {
+  const defaultLatCoord = TokyoCenterCoord.LAT.toFixed(5);
+  const defaultLngCoord = TokyoCenterCoord.LNG.toFixed(5);
+  inputAddress.value = `${defaultLatCoord}, ${defaultLngCoord}`;
+};
+
 const map = L.map('map-canvas');
 
 specialMarker.addTo(map);
@@ -81,8 +96,6 @@ const showMarkers = (adverts) => {
   adverts.forEach(createMarker);
 };
 
-export { showMarkers };
-
 map.on('load', () => {
   renderInputAddress(specialMarker);
   activatePage();
@@ -96,3 +109,25 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
 ).addTo(map);
+
+
+const resetFormAndFilters = () => {
+  form.reset();
+  formFilters.reset();
+};
+
+formReset.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetFormAndFilters();
+  setDefaultAddressCoordinates();
+  setDefaultCoordinates();
+});
+
+export {
+  TokyoCenterCoord,
+  showMarkers,
+  resetFormAndFilters,
+  setDefaultAddressCoordinates,
+  setDefaultCoordinates
+};
+

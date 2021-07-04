@@ -6,7 +6,6 @@ const formFiltersContainer = Array.from(formFilters);
 const activateFilter = () => {
   formFilters.classList.remove('map-filters--disabled');
   formFiltersContainer.forEach(unsetDisabled);
-
 };
 
 const deactivateFilter = () => {
@@ -14,4 +13,4 @@ const deactivateFilter = () => {
   formFiltersContainer.forEach(setDisabled);
 };
 
-export { activateFilter, deactivateFilter };
+export { activateFilter, deactivateFilter, formFilters };
