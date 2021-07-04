@@ -32,7 +32,7 @@ const renderCard = (advert) => {
 
   const card = cardTemplate.cloneNode(true);
   const popupPhotoContainer = card.querySelector('.popup__photos');
-  const featureList = card.querySelectorAll('.popup__features');
+  const featureList = card.querySelector('.popup__features');
 
   card.querySelector('.popup__avatar').src = author.avatar;
   card.querySelector('.popup__title').textContent = offer.title === undefined ? '' : offer.title;
