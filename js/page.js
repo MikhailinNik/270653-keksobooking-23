@@ -3,6 +3,7 @@ import { activateFilter, deactivateFilter } from './filter.js';
 import { showMarkers, clearMap } from './map.js';
 import { getData } from './api.js';
 import { setFilterChangeHandler, filterAdverts } from './filter.js';
+import { debounce } from './utils/debounce.js';
 
 const BEGIN_INDEX = 0;
 const END_INDEX = 10;
@@ -14,12 +15,12 @@ const activatePage = () => {
     showMarkers(adverts.slice(BEGIN_INDEX, END_INDEX));
     activateFilter();
 
-    setFilterChangeHandler(() => {
+    setFilterChangeHandler(debounce(() => {
       const filteredAdverts = filterAdverts(adverts, 10);
 
       clearMap();
       showMarkers(filteredAdverts);
-    });
+    }));
   });
 };
 
