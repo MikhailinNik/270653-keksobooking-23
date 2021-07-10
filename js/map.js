@@ -1,7 +1,4 @@
 import { renderCard } from './card.js';
-import { activatePage } from './page.js';
-import { form, formReset } from './form.js';
-import { formFilters } from './filter.js';
 
 const TokyoCenterCoord = {
   LAT: 35.6894,
@@ -65,16 +62,19 @@ specialMarker.on('drag', () => {
   renderInputAddress(specialMarker);
 });
 
+const pinIcon = L.icon({
+  iconUrl: OTHER_ICON.path,
+  iconSize: OTHER_ICON.size,
+  iconAnchor: OTHER_ICON.anchor,
+});
+
+const groupLayer = L.layerGroup();
+
 const createMarker = (advert) => {
-  const groupLayer = L.layerGroup().addTo(map);
+  groupLayer.addTo(map);
+
   const lat = advert.location.lat;
   const lng = advert.location.lng;
-
-  const icon = L.icon({
-    iconUrl: OTHER_ICON.path,
-    iconSize: OTHER_ICON.size,
-    iconAnchor: OTHER_ICON.anchor,
-  });
 
   const marker = L.marker(
     {
@@ -82,7 +82,7 @@ const createMarker = (advert) => {
       lng,
     },
     {
-      icon,
+      icon: pinIcon,
     },
   );
 
@@ -96,38 +96,27 @@ const showMarkers = (adverts) => {
   adverts.forEach(createMarker);
 };
 
-map.on('load', () => {
+const createMap = (callback) => map.on('load', () => {
   renderInputAddress(specialMarker);
-  activatePage();
+  callback();
 })
   .setView({
     lat: TokyoCenterCoord.LAT,
     lng: TokyoCenterCoord.LNG,
   }, 10);
+
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
 ).addTo(map);
 
-
-const resetFormAndFilters = () => {
-  form.reset();
-  formFilters.reset();
-};
-
-formReset.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  resetFormAndFilters();
-  setDefaultAddressCoordinates();
-  setDefaultCoordinates();
-});
+const clearMap = () => groupLayer.clearLayers();
 
 export {
-  TokyoCenterCoord,
   showMarkers,
-  resetFormAndFilters,
   setDefaultAddressCoordinates,
-  setDefaultCoordinates
+  setDefaultCoordinates,
+  createMap,
+  clearMap
 };
-

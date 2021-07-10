@@ -1,14 +1,27 @@
 import { activateForm, deactivateForm } from './form.js';
 import { activateFilter, deactivateFilter } from './filter.js';
-import { showMarkers } from './map.js';
+import { showMarkers, clearMap } from './map.js';
 import { getData } from './api.js';
+import { setFilterChangeHandler, filterAdverts } from './filter.js';
+import { debounce } from './utils/debounce.js';
+
+const BEGIN_INDEX = 0;
+const END_INDEX = 10;
 
 const activatePage = () => {
   activateForm();
-  getData((advert) => {
-    showMarkers(advert);
+
+  getData((adverts) => {
+    showMarkers(adverts.slice(BEGIN_INDEX, END_INDEX));
+    activateFilter();
+
+    setFilterChangeHandler(debounce(() => {
+      const filteredAdverts = filterAdverts(adverts, 10);
+
+      clearMap();
+      showMarkers(filteredAdverts);
+    }));
   });
-  activateFilter();
 };
 
 const deactivatePage = () => {
@@ -16,6 +29,9 @@ const deactivatePage = () => {
   deactivateFilter();
 };
 
-export { activatePage, deactivatePage };
+export {
+  activatePage,
+  deactivatePage
+};
 
 

@@ -1,4 +1,6 @@
 import { setDisabled, unsetDisabled } from './util.js';
+import { setDefaultAddressCoordinates, setDefaultCoordinates } from './map.js';
+import { formFilters } from './filter.js';
 import { sendData } from './api.js';
 
 const form = document.querySelector('.ad-form');
@@ -15,6 +17,19 @@ const deactivateForm = () => {
   formContainer.forEach(setDisabled);
 };
 
+const resetFormAndFilters = () => {
+  form.reset();
+  formFilters.reset();
+};
+
+formReset.addEventListener('click', (evt) => {
+  evt.preventDefault();
+
+  resetFormAndFilters();
+  setDefaultAddressCoordinates();
+  setDefaultCoordinates();
+});
+
 const setUserFormSubmit = (onSuccess, onFail) => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -27,4 +42,9 @@ const setUserFormSubmit = (onSuccess, onFail) => {
   });
 };
 
-export { activateForm, deactivateForm, form, formReset, setUserFormSubmit };
+export {
+  activateForm,
+  deactivateForm,
+  setUserFormSubmit,
+  resetFormAndFilters
+};
