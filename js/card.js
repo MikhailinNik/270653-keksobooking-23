@@ -1,3 +1,5 @@
+import { pluralize } from './util.js';
+
 const offerTypeEnToRu = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -39,7 +41,7 @@ const renderCard = (advert) => {
   card.querySelector('.popup__text--address').textContent = offer.address === undefined ? '' : offer.address;
   card.querySelector('.popup__text--price').textContent =  offer.price === undefined ? '' : `${offer.price} ₽/ночь`;
   card.querySelector('.popup__type').textContent = offer.type === undefined ? '' : offerTypeEnToRu[offer.type];
-  card.querySelector('.popup__text--capacity').textContent = offer.rooms === undefined ? '' : `${offer.rooms} комнаты для ${offer.guests} гостей`;
+  card.querySelector('.popup__text--capacity').textContent = offer.rooms === undefined ? '' : `${offer.rooms} ${pluralize(offer.rooms, 'комната', 'комнаты', 'комнат')} для ${offer.guests} ${pluralize(offer.guests, 'гостя', 'гостей', 'гостей')}`;
   card.querySelector('.popup__text--time').textContent = offer.checkin === undefined || offer.checkout === undefined ? '' : `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   card.querySelector('.popup__description').textContent = offer.description === undefined ? '' : offer.description;
 
