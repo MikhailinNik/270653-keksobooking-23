@@ -63,6 +63,7 @@ const filterAdverts = (adverts, limit) => {
 
   const filteredAdverts = [];
 
+  // eslint-disable-next-line id-length
   for (let i = 0; i < adverts.length; i++) {
     const current = adverts[i];
 
