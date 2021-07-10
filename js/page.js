@@ -1,19 +1,26 @@
 import { activateForm, deactivateForm } from './form.js';
-import { activateFilter, change, deactivateFilter, showAdvert, getFilterAd } from './filter.js';
-import { showMarkers } from './map.js';
+import { activateFilter, deactivateFilter } from './filter.js';
+import { showMarkers, clearMap } from './map.js';
 import { getData } from './api.js';
-import { firstItem, getSecondItem } from './util.js';
+import { setFilterChangeHandler, filterAdverts } from './filter.js';
+
+const BEGIN_INDEX = 0;
+const END_INDEX = 10;
 
 const activatePage = () => {
-  const one = firstItem;
-  const two = getSecondItem();
   activateForm();
-  getData((advert) => {
-    showMarkers(advert.slice(one, two));
-    change(() => getFilterAd(advert));
 
+  getData((adverts) => {
+    showMarkers(adverts.slice(BEGIN_INDEX, END_INDEX));
+    activateFilter();
+
+    setFilterChangeHandler(() => {
+      const filteredAdverts = filterAdverts(adverts, 10);
+
+      clearMap();
+      showMarkers(filteredAdverts);
+    });
   });
-  activateFilter();
 };
 
 const deactivatePage = () => {
@@ -21,6 +28,9 @@ const deactivatePage = () => {
   deactivateFilter();
 };
 
-export { activatePage, deactivatePage };
+export {
+  activatePage,
+  deactivatePage
+};
 
 

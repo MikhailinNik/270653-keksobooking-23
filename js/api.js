@@ -1,11 +1,12 @@
-import { showAlert, firstItem, getSecondItem } from './util.js';
+import { showAlert } from './util.js';
 
-const TEN_ADERTISMENT = 10;
+const methodFetchToUrl = {
+  get: 'https://23.javascript.pages.academy/keksobooking/data',
+  post: 'https://23.javascript.pages.academy/keksobooking',
+};
 
 const getData = (onSuccess) => {
-  const one = firstItem;
-  const two = getSecondItem();
-  fetch('https://23.javascript.pages.academy/keksobooking/data')
+  fetch(methodFetchToUrl.get)
     .then((response) => response.json())
     .then((adverts) => {
       onSuccess(adverts);
@@ -16,7 +17,7 @@ const getData = (onSuccess) => {
 };
 
 const sendData = (onSuccess, onFail, body) => {
-  fetch('https://23.javascript.pages.academy/keksobooking',
+  fetch(methodFetchToUrl.post,
     {
       method: 'POST',
       body,

@@ -1,4 +1,5 @@
-import { resetFormAndFilters, setDefaultAddressCoordinates, setDefaultCoordinates } from './map.js';
+import { setDefaultAddressCoordinates, setDefaultCoordinates } from './map.js';
+import { resetFormAndFilters } from './form.js';
 
 const EscapeKey = {
   KEY1: 'Escape',

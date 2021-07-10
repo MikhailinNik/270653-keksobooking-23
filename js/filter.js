@@ -1,9 +1,8 @@
-import { groupLayer, showMarkers } from './map.js';
-import { setDisabled, unsetDisabled, firstItem, getSecondItem } from './util.js';
+import { setDisabled, unsetDisabled } from './util.js';
 
 const MAX_PRICE = Infinity;
 
-const KeyPrices = {
+const offerPriceToRange = {
   'any': [0, MAX_PRICE],
   'middle': [10000, 50000],
   'low': [0, 10000],
@@ -16,7 +15,7 @@ const housingPrice = formFilters.querySelector('#housing-price');
 const housingRooms = formFilters.querySelector('#housing-rooms');
 const housingGuests = formFilters.querySelector('#housing-guests');
 const housingFeatures = formFilters.querySelector('#housing-features');
-// const featuresInput = housingFeatures.querySelectorAll('input:checked');
+
 const formFiltersContainer = Array.from(formFilters);
 
 const activateFilter = () => {
@@ -29,59 +28,76 @@ const deactivateFilter = () => {
   formFiltersContainer.forEach(setDisabled);
 };
 
-const getType = (array, key, filter) => {
-  const arr = array.filter((item) => item.offer[key] === filter.value);
-  filter.value === 'any' ?
-    array :
-    arr;
-  // showMarkers(arr);
+let checkedfeatures = [];
+
+const checkOfferType = (offer) => housingType.value === 'any' || housingType.value === offer.type;
+
+const checkOfferPrice = (offer) => {
+  if (housingPrice.value === 'any') {
+    return true;
+  }
+
+  const [min, max] = offerPriceToRange[housingPrice.value];
+  return offer.price >= min && offer.price <= max;
 };
 
-const getPrice = (array, value) => {
-  const [min, max] = KeyPrices[value];
-  const arr = array.filter((item) => item.offer.price >= min && item.offer.price <= max);
-  // showMarkers(arr);
+const checkOfferRooms = (offer) => housingRooms.value === 'any' || +housingRooms.value === offer.rooms;
+
+const checkOfferGuests = (offer) => housingGuests.value === 'any' || +housingGuests.value === offer.guests;
+
+const checkFeatures = (offer) => {
+  const features = offer.features || [];
+  return checkedfeatures.every((feature) => features.includes(feature.value));
 };
 
+const checkOffer = (offer) =>
+  checkOfferType(offer) &&
+  checkOfferPrice(offer) &&
+  checkOfferRooms(offer) &&
+  checkOfferGuests(offer) &&
+  checkFeatures(offer);
 
 
-/*
-const filterFeatures = (a1, a2) => {
-  return a1.filter((item) => item.includes(a2.forEach((it) => it)));
+const filterAdverts = (adverts, limit) => {
+  checkedfeatures = Array.from(housingFeatures.querySelectorAll('input:checked'));
+
+  const filteredAdverts = [];
+
+  for (let i = 0; i < adverts.length; i++) {
+    const current = adverts[i];
+
+    if (checkOffer(current.offer)) {
+      filteredAdverts.push(current);
+    }
+
+    if (filteredAdverts.length === limit) {
+      break;
+    }
+  }
+
+  return filteredAdverts;
 };
 
-const getFeaturesItem = (advert) => {
+let onFilterChange = null;
 
-  const ad = advert.map((item) => item.offer.features);
-  const featuresInput = housingFeatures.querySelectorAll('input:checked');
-  const inputArrValue = Array.from(featuresInput).map((item) => item.value);
-  console.log(inputArrValue);
-
-  console.log(filterFeatures(ad, inputArrValue));
-
-
-
-};
-*/
-
-const showAdvert = (advert) => {
-  const one = firstItem;
-  const two = getSecondItem();
-  const copy = advert.slice(one, two);
-  groupLayer.clearLayers();
-
-  const checks = [
-  ];
-  getType(advert, 'type', housingType);
-  getType(advert, 'rooms', housingRooms);
-  getType(advert, 'guests', housingGuests);
-  getPrice(advert, housingPrice.value);
-
-
-  return checks.every((feature) => feature(advert))
+const setFilterChangeHandler = (callback) => {
+  onFilterChange = callback;
 };
 
+const onFormFiltersChange = (evt) => {
+  evt.preventDefault();
 
-const change = (cb) => formFilters.addEventListener('change', () => cb());
+  if (typeof onFilterChange === 'function') {
+    onFilterChange();
+  }
+};
 
-export { activateFilter, deactivateFilter, formFilters, showAdvert, change };
+formFilters.addEventListener('change', onFormFiltersChange);
+
+export {
+  setFilterChangeHandler,
+  activateFilter,
+  deactivateFilter,
+  formFilters,
+  filterAdverts
+};
