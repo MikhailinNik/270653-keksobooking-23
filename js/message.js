@@ -7,6 +7,8 @@ const EscapeKey = {
 
 const success = document.querySelector('#success').content.querySelector('.success');
 const error = document.querySelector('#error').content.querySelector('.error');
+const submitButton = document.querySelector('.ad-form__submit');
+
 const bodyItem = document.querySelector('body');
 const messageSuccess = success.cloneNode(true);
 const messageError = error.cloneNode(true);
@@ -39,13 +41,19 @@ const onMessageClick = (evt) => {
 };
 
 const onMessageKeydown = (evt) => {
+  const activeItem = document.activeElement;
+
+  if (activeItem === submitButton) {
+    activeItem.blur();
+  }
+
   if (evt.key === EscapeKey.KEY1 || evt.key === EscapeKey.KEY2) {
     evt.preventDefault();
     addClass(evt);
-  }
+    removeMessage();
 
-  removeMessage();
-  document.removeEventListener('keydown', onMessageKeydown);
+    document.removeEventListener('keydown', onMessageKeydown);
+  }
 
 };
 

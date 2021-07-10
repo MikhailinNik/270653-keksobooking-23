@@ -1,6 +1,10 @@
-import { showAlert } from './util.js';
+import { showAlert, firstItem, getSecondItem } from './util.js';
+
+const TEN_ADERTISMENT = 10;
 
 const getData = (onSuccess) => {
+  const one = firstItem;
+  const two = getSecondItem();
   fetch('https://23.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
     .then((adverts) => {

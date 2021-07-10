@@ -65,8 +65,10 @@ specialMarker.on('drag', () => {
   renderInputAddress(specialMarker);
 });
 
+const groupLayer = L.layerGroup();
+
 const createMarker = (advert) => {
-  const groupLayer = L.layerGroup().addTo(map);
+  groupLayer.addTo(map);
   const lat = advert.location.lat;
   const lng = advert.location.lng;
 
@@ -128,6 +130,8 @@ export {
   showMarkers,
   resetFormAndFilters,
   setDefaultAddressCoordinates,
-  setDefaultCoordinates
+  setDefaultCoordinates,
+  map,
+  groupLayer
 };
 

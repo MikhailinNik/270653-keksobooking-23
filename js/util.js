@@ -1,3 +1,5 @@
+import { getRandomNumber } from './random.js';
+
 const ALERT_SHOW_TIME = 5000;
 
 const setDisabled = (element) => {
@@ -29,4 +31,11 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export { setDisabled, unsetDisabled, showAlert };
+
+const firstItem = getRandomNumber(0, 40);
+const getSecondItem = () => {
+  const result = firstItem + 9;
+  return result;
+};
+
+export { setDisabled, unsetDisabled, showAlert, firstItem, getSecondItem };
