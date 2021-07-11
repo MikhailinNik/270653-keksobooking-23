@@ -1,5 +1,6 @@
 import { setDefaultAddressCoordinates, setDefaultCoordinates } from './map.js';
 import { resetFormAndFilters } from './form.js';
+import { resetImage } from './avatar.js';
 
 const EscapeKey = {
   KEY1: 'Escape',
@@ -63,6 +64,7 @@ const showSuccessMessage = () => {
   bodyItem.appendChild(messageSuccess);
 
   resetFormAndFilters();
+  resetImage();
   setDefaultAddressCoordinates();
   setDefaultCoordinates();
 

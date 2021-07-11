@@ -2,6 +2,7 @@ import { setDisabled, unsetDisabled } from './util.js';
 import { setDefaultAddressCoordinates, setDefaultCoordinates } from './map.js';
 import { formFilters } from './filter.js';
 import { sendData } from './api.js';
+import { resetImage } from './avatar.js';
 
 const form = document.querySelector('.ad-form');
 const formReset = form.querySelector('.ad-form__reset');
@@ -26,6 +27,7 @@ formReset.addEventListener('click', (evt) => {
   evt.preventDefault();
 
   resetFormAndFilters();
+  resetImage();
   setDefaultAddressCoordinates();
   setDefaultCoordinates();
 });
