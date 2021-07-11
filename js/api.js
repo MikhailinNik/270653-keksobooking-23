@@ -1,12 +1,12 @@
 import { showAlert } from './util.js';
 
-const methodFetchToUrl = {
+const RequestUrl = {
   get: 'https://23.javascript.pages.academy/keksobooking/data',
   post: 'https://23.javascript.pages.academy/keksobooking',
 };
 
 const getData = (onSuccess) => {
-  fetch(methodFetchToUrl.get)
+  fetch(RequestUrl.get)
     .then((response) => response.json())
     .then((adverts) => {
       onSuccess(adverts);
@@ -17,7 +17,7 @@ const getData = (onSuccess) => {
 };
 
 const sendData = (onSuccess, onFail, body) => {
-  fetch(methodFetchToUrl.post,
+  fetch(RequestUrl.post,
     {
       method: 'POST',
       body,
