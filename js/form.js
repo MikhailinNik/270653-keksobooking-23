@@ -22,14 +22,17 @@ const resetFormAndFilters = () => {
   form.reset();
   formFilters.reset();
 };
-
-formReset.addEventListener('click', (evt) => {
-  evt.preventDefault();
-
+const resetForm = () => {
   resetFormAndFilters();
   resetImage();
   setDefaultAddressCoordinates();
   setDefaultCoordinates();
+};
+
+formReset.addEventListener('click', (evt) => {
+  evt.preventDefault();
+
+  resetForm();
 });
 
 const setUserFormSubmit = (onSuccess, onFail) => {
@@ -37,8 +40,8 @@ const setUserFormSubmit = (onSuccess, onFail) => {
     evt.preventDefault();
 
     sendData(
-      () => onSuccess(),
-      () => onFail(),
+      onSuccess,
+      onFail,
       new FormData(form),
     );
   });
@@ -48,5 +51,5 @@ export {
   activateForm,
   deactivateForm,
   setUserFormSubmit,
-  resetFormAndFilters
+  resetForm
 };

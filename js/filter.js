@@ -1,12 +1,13 @@
 import { setDisabled, unsetDisabled } from './util.js';
 
-const MAX_PRICE = Infinity;
+const VALUE_ANY = 'any';
+const TYPE_OF_FUNCTION = 'function';
 
 const offerPriceToRange = {
-  'any': [0, MAX_PRICE],
+  'any': [0, Number.MAX_SAFE_INTEGER],
   'middle': [10000, 50000],
   'low': [0, 10000],
-  'high': [50000, MAX_PRICE],
+  'high': [50000, Number.MAX_SAFE_INTEGER],
 };
 
 const formFilters = document.querySelector('.map__filters');
@@ -30,10 +31,10 @@ const deactivateFilter = () => {
 
 let checkedfeatures = [];
 
-const checkOfferType = (offer) => housingType.value === 'any' || housingType.value === offer.type;
+const checkOfferType = (offer) => housingType.value === VALUE_ANY || housingType.value === offer.type;
 
 const checkOfferPrice = (offer) => {
-  if (housingPrice.value === 'any') {
+  if (housingPrice.value === VALUE_ANY) {
     return true;
   }
 
@@ -41,9 +42,9 @@ const checkOfferPrice = (offer) => {
   return offer.price >= min && offer.price <= max;
 };
 
-const checkOfferRooms = (offer) => housingRooms.value === 'any' || +housingRooms.value === offer.rooms;
+const checkOfferRooms = (offer) => housingRooms.value === VALUE_ANY || +housingRooms.value === offer.rooms;
 
-const checkOfferGuests = (offer) => housingGuests.value === 'any' || +housingGuests.value === offer.guests;
+const checkOfferGuests = (offer) => housingGuests.value === VALUE_ANY || +housingGuests.value === offer.guests;
 
 const checkFeatures = (offer) => {
   const features = offer.features || [];
@@ -63,7 +64,6 @@ const filterAdverts = (adverts, limit) => {
 
   const filteredAdverts = [];
 
-  // eslint-disable-next-line id-length
   for (let i = 0; i < adverts.length; i++) {
     const current = adverts[i];
 
@@ -75,6 +75,8 @@ const filterAdverts = (adverts, limit) => {
       break;
     }
   }
+
+  checkedfeatures = null;
 
   return filteredAdverts;
 };
@@ -88,7 +90,7 @@ const setFilterChangeHandler = (callback) => {
 const onFormFiltersChange = (evt) => {
   evt.preventDefault();
 
-  if (typeof onFilterChange === 'function') {
+  if (typeof onFilterChange === TYPE_OF_FUNCTION) {
     onFilterChange();
   }
 };

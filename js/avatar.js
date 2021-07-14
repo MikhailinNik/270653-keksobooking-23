@@ -1,29 +1,36 @@
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 const IMG_DEFAULT = 'img/muffin-grey.svg';
 
+const ImageStyle = {
+  WIDTH: [40, 70],
+  HEIGHT: [44, 70],
+  ALT: ['Фотография жилья', 'Аватар пользователя'],
+  BORDER: '5px',
+};
+
 const fileInputPreview = document.querySelector('.ad-form-header__input');
 const preview = document.querySelector('.ad-form-header__preview');
 const photo = document.querySelector('.ad-form__photo');
 const fileInputPhoto = document.querySelector('.ad-form__input');
 
-const createItem = (item) => {
+const createImageItem = (divItem) => {
   const image = document.createElement('img');
   image.src = '';
-  image.width = 40;
-  image.height = 44;
-  if (item === photo) {
-    image.width = 70;
-    image.height = 70;
+  image.width = ImageStyle.WIDTH[0];
+  image.height = ImageStyle.HEIGHT[0];
+  if (divItem === photo) {
+    image.width = ImageStyle.WIDTH[1];
+    image.height = ImageStyle.HEIGHT[1];
   }
 
-  image.style.borderRadius = '5px';
-  image.alt = 'Фотография жилья';
+  image.style.borderRadius = ImageStyle.BORDER;
+  image.alt = ImageStyle.ALT[0];
 
-  if (item === preview) {
-    image.alt = 'Аватар пользователя';
+  if (divItem === preview) {
+    image.alt = ImageStyle.ALT[1];
   }
 
-  return item.appendChild(image);
+  return image;
 };
 
 const removeItem = (item) => item.innerHTML = '';
@@ -33,20 +40,20 @@ const resetImage = () => {
   photo.innerHTML = '';
 };
 
-const loadImage = (input, item) => {
+const loadImage = (input, divItem) => {
   input.addEventListener('change', () => {
     const file = input.files[0];
     const fileName = file.name.toLowerCase();
 
-    const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+    const matches = FILE_TYPES.some((fileExtension) => fileName.endsWith(fileExtension));
 
     if (matches) {
       const reader = new FileReader();
 
       reader.addEventListener('load', () => {
-        removeItem(item);
-        createItem(item);
-        item.firstChild.src = reader.result;
+        removeItem(divItem);
+        divItem.appendChild(createImageItem(divItem));
+        divItem.firstChild.src = reader.result;
       });
 
       reader.readAsDataURL(file);

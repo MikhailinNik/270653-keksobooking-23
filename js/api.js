@@ -1,12 +1,14 @@
 import { showAlert } from './util.js';
 
 const RequestUrl = {
-  get: 'https://23.javascript.pages.academy/keksobooking/data',
-  post: 'https://23.javascript.pages.academy/keksobooking',
+  GET: 'https://23.javascript.pages.academy/keksobooking/data',
+  POST: 'https://23.javascript.pages.academy/keksobooking',
 };
 
+const METHOD_POST = 'POST';
+
 const getData = (onSuccess) => {
-  fetch(RequestUrl.get)
+  fetch(RequestUrl.GET)
     .then((response) => response.json())
     .then((adverts) => {
       onSuccess(adverts);
@@ -17,9 +19,9 @@ const getData = (onSuccess) => {
 };
 
 const sendData = (onSuccess, onFail, body) => {
-  fetch(RequestUrl.post,
+  fetch(RequestUrl.POST,
     {
-      method: 'POST',
+      method: METHOD_POST,
       body,
     })
     .then((response) => {
