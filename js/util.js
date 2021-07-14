@@ -1,4 +1,6 @@
 const ALERT_SHOW_TIME = 5000;
+const TIMEOUT = 500;
+const MAX_ADVERTS = 10;
 
 const setDisabled = (element) => {
   element.disabled = true;
@@ -45,4 +47,17 @@ const pluralize = (value, one, two, five) => {
   return mod10 === 1 ? one : five;
 };
 
-export { setDisabled, unsetDisabled, showAlert, pluralize };
+const debounce = (callback, timeoutDelay) => {
+  timeoutDelay = TIMEOUT;
+
+  let timeoutId;
+
+  return (...rest) => {
+
+    clearTimeout(timeoutId);
+
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export { setDisabled, unsetDisabled, showAlert, pluralize, debounce, MAX_ADVERTS };

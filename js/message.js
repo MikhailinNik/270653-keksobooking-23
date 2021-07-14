@@ -1,14 +1,12 @@
-import { setDefaultAddressCoordinates, setDefaultCoordinates } from './map.js';
-import { resetFormAndFilters } from './form.js';
+import { resetForm } from './form.js';
 
-const EscapeKey = {
-  KEY1: 'Escape',
-  KEY2: 'Esc',
+const KeyboardKey = {
+  ESCAPE: 'Escape',
+  ESC: 'Esc',
 };
 
 const success = document.querySelector('#success').content.querySelector('.success');
 const error = document.querySelector('#error').content.querySelector('.error');
-const submitButton = document.querySelector('.ad-form__submit');
 
 const bodyItem = document.querySelector('body');
 const messageSuccess = success.cloneNode(true);
@@ -25,6 +23,9 @@ const removeClassAndItem = (item) => {
   item.remove();
 };
 
+let onMessageClick = null;
+let onMessageKeydown = null;
+
 const removeMessage = () => {
   if (messageSuccess.classList.contains('hidden')) {
     removeClassAndItem(messageSuccess);
@@ -33,27 +34,23 @@ const removeMessage = () => {
   if (messageError.classList.contains('hidden')) {
     removeClassAndItem(messageError);
   }
-};
 
-const onMessageClick = (evt) => {
-  addClass(evt);
   document.removeEventListener('click', onMessageClick);
-  removeMessage();
+  document.removeEventListener('keydown', onMessageKeydown);
 };
 
-const onMessageKeydown = (evt) => {
-  const activeItem = document.activeElement;
+onMessageClick = (evt) => {
+  addClass(evt);
+  removeMessage();
 
-  if (activeItem === submitButton) {
-    activeItem.blur();
-  }
+};
 
-  if (evt.key === EscapeKey.KEY1 || evt.key === EscapeKey.KEY2) {
-    evt.preventDefault();
+onMessageKeydown = (evt) => {
+  evt.preventDefault();
+
+  if (evt.key === KeyboardKey.ESCAPE || evt.key === KeyboardKey.ESC) {
     addClass(evt);
     removeMessage();
-
-    document.removeEventListener('keydown', onMessageKeydown);
   }
 
 };
@@ -62,9 +59,7 @@ const showSuccessMessage = () => {
 
   bodyItem.appendChild(messageSuccess);
 
-  resetFormAndFilters();
-  setDefaultAddressCoordinates();
-  setDefaultCoordinates();
+  resetForm();
 
   document.addEventListener('click', onMessageClick);
   document.addEventListener('keydown', onMessageKeydown);

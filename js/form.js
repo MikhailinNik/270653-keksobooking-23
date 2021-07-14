@@ -1,7 +1,8 @@
-import { setDisabled, unsetDisabled } from './util.js';
-import { setDefaultAddressCoordinates, setDefaultCoordinates } from './map.js';
+import { setDisabled, unsetDisabled, MAX_ADVERTS } from './util.js';
+import { clearMap, setDefaultAddressCoordinates, setDefaultCoordinates, showMarkers } from './map.js';
 import { formFilters } from './filter.js';
-import { sendData } from './api.js';
+import { getData, sendData } from './api.js';
+import { resetImage } from './avatar.js';
 
 const form = document.querySelector('.ad-form');
 const formReset = form.querySelector('.ad-form__reset');
@@ -21,13 +22,21 @@ const resetFormAndFilters = () => {
   form.reset();
   formFilters.reset();
 };
+const resetForm = () => {
+  resetFormAndFilters();
+  resetImage();
+  setDefaultAddressCoordinates();
+  setDefaultCoordinates();
+  clearMap();
+  getData((adverts) => {
+    showMarkers(adverts.slice(0, MAX_ADVERTS));
+  });
+};
 
 formReset.addEventListener('click', (evt) => {
   evt.preventDefault();
 
-  resetFormAndFilters();
-  setDefaultAddressCoordinates();
-  setDefaultCoordinates();
+  resetForm();
 });
 
 const setUserFormSubmit = (onSuccess, onFail) => {
@@ -35,8 +44,8 @@ const setUserFormSubmit = (onSuccess, onFail) => {
     evt.preventDefault();
 
     sendData(
-      () => onSuccess(),
-      () => onFail(),
+      onSuccess,
+      onFail,
       new FormData(form),
     );
   });
@@ -46,5 +55,5 @@ export {
   activateForm,
   deactivateForm,
   setUserFormSubmit,
-  resetFormAndFilters
+  resetForm
 };
