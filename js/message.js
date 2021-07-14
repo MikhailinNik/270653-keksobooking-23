@@ -1,6 +1,4 @@
-// import { setDefaultAddressCoordinates, setDefaultCoordinates } from './map.js';
 import { resetForm } from './form.js';
-// import { resetImage } from './avatar.js';
 
 const KeyboardKey = {
   ESCAPE: 'Escape',
@@ -25,6 +23,9 @@ const removeClassAndItem = (item) => {
   item.remove();
 };
 
+let onMessageClick = null;
+let onMessageKeydown = null;
+
 const removeMessage = () => {
   if (messageSuccess.classList.contains('hidden')) {
     removeClassAndItem(messageSuccess);
@@ -38,12 +39,13 @@ const removeMessage = () => {
   document.removeEventListener('keydown', onMessageKeydown);
 };
 
-function onMessageClick(evt) {
+onMessageClick = (evt) => {
   addClass(evt);
   removeMessage();
-}
 
-function onMessageKeydown (evt) {
+};
+
+onMessageKeydown = (evt) => {
   evt.preventDefault();
 
   if (evt.key === KeyboardKey.ESCAPE || evt.key === KeyboardKey.ESC) {
@@ -51,7 +53,7 @@ function onMessageKeydown (evt) {
     removeMessage();
   }
 
-}
+};
 
 const showSuccessMessage = () => {
 
