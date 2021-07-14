@@ -33,7 +33,9 @@ const createImageItem = (divItem) => {
   return image;
 };
 
-const removeItem = (item) => item.innerHTML = '';
+const removeItem = (item) => {
+  item.innerHTML = '';
+};
 
 const resetImage = () => {
   preview.firstChild.src = IMG_DEFAULT;
