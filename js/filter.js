@@ -102,5 +102,6 @@ export {
   activateFilter,
   deactivateFilter,
   formFilters,
-  filterAdverts
+  filterAdverts,
+  onFormFiltersChange
 };
