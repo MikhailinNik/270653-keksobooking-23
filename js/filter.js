@@ -95,6 +95,7 @@ const onFormFiltersChange = (evt) => {
   }
 };
 
+
 formFilters.addEventListener('change', onFormFiltersChange);
 
 export {
@@ -102,5 +103,6 @@ export {
   activateFilter,
   deactivateFilter,
   formFilters,
-  filterAdverts
+  filterAdverts,
+  onFormFiltersChange
 };

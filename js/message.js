@@ -56,7 +56,6 @@ onMessageKeydown = (evt) => {
 };
 
 const showSuccessMessage = () => {
-
   bodyItem.appendChild(messageSuccess);
 
   resetForm();

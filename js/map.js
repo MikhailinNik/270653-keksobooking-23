@@ -5,13 +5,13 @@ const TokyoCenterCoord = {
   LNG: 139.692,
 };
 
-const MAIN_ICON = {
+const MainIcon = {
   PATH: './img/main-pin.svg',
   SIZE: [52, 52],
   ANCHOR: [26, 52],
 };
 
-const OTHER_ICON = {
+const OtherIcon = {
   PATH: './img/pin.svg',
   SIZE: [40, 40],
   ANCHOR: [20, 40],
@@ -25,9 +25,9 @@ const renderInputAddress = (marker) => {
 };
 
 const mainPinIcon = L.icon({
-  iconUrl: MAIN_ICON.PATH,
-  iconSize: MAIN_ICON.SIZE,
-  iconAnchor: MAIN_ICON.ANCHOR,
+  iconUrl: MainIcon.PATH,
+  iconSize: MainIcon.SIZE,
+  iconAnchor: MainIcon.ANCHOR,
 });
 
 const specialMarker = L.marker(
@@ -63,9 +63,9 @@ specialMarker.on('drag', () => {
 });
 
 const pinIcon = L.icon({
-  iconUrl: OTHER_ICON.PATH,
-  iconSize: OTHER_ICON.SIZE,
-  iconAnchor: OTHER_ICON.ANCHOR,
+  iconUrl: OtherIcon.PATH,
+  iconSize: OtherIcon.SIZE,
+  iconAnchor: OtherIcon.ANCHOR,
 });
 
 const groupLayer = L.layerGroup();
