@@ -1,4 +1,4 @@
-import { setDisabled, unsetDisabled } from './util.js';
+import { setDisabled, unsetDisabled } from './utils/dom.js';
 import { setDefaultAddressCoordinates, setDefaultCoordinates } from './map.js';
 import { formFilters, onFormFiltersChange } from './filter.js';
 import { sendData } from './api.js';

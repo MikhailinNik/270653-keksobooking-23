@@ -3,7 +3,8 @@ import { activateFilter, deactivateFilter } from './filter.js';
 import { showMarkers, clearMap, setDefaultAddressCoordinates } from './map.js';
 import { getData } from './api.js';
 import { setFilterChangeHandler, filterAdverts } from './filter.js';
-import { debounce, MAX_ADVERTS } from './util.js';
+import { debounce } from './util.js';
+import { MAX_ADVERTS } from './utils/consts.js';
 
 const activatePage = () => {
   activateForm();

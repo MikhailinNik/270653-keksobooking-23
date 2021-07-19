@@ -1,0 +1,9 @@
+const ALERT_SHOW_TIME = 5000;
+const TIMEOUT = 500;
+const MAX_ADVERTS = 10;
+
+export {
+  ALERT_SHOW_TIME,
+  TIMEOUT,
+  MAX_ADVERTS
+};

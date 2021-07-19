@@ -1,4 +1,4 @@
-import { setDisabled, unsetDisabled } from './util.js';
+import { setDisabled, unsetDisabled } from './utils/dom.js';
 
 const VALUE_ANY = 'any';
 const TYPE_OF_FUNCTION = 'function';

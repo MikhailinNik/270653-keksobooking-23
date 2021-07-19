@@ -1,11 +1,19 @@
+import { clearElement } from './utils/dom.js';
+
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 const IMG_DEFAULT = 'img/muffin-grey.svg';
+const BORDER = '5px';
 
-const ImageStyle = {
-  WIDTH: [40, 70],
-  HEIGHT: [44, 70],
-  ALT: ['Фотография жилья', 'Аватар пользователя'],
-  BORDER: '5px',
+const AvatarStyle = {
+  WIDTH: 40,
+  HEIGHT: 44,
+  ALT: 'Аватар пользователя',
+};
+
+const PhotoStyle = {
+  WIDTH: 70,
+  HEIGHT: 70,
+  ALT: 'Фотография жилья',
 };
 
 const fileInputPreview = document.querySelector('.ad-form-header__input');
@@ -13,57 +21,58 @@ const preview = document.querySelector('.ad-form-header__preview');
 const photo = document.querySelector('.ad-form__photo');
 const fileInputPhoto = document.querySelector('.ad-form__input');
 
-const createImageItem = (divItem) => {
+const createImage = (container) => {
   const image = document.createElement('img');
   image.src = '';
-  image.width = ImageStyle.WIDTH[0];
-  image.height = ImageStyle.HEIGHT[0];
-  if (divItem === photo) {
-    image.width = ImageStyle.WIDTH[1];
-    image.height = ImageStyle.HEIGHT[1];
+  image.width = AvatarStyle.WIDTH;
+  image.height = AvatarStyle.HEIGHT;
+  if (container === photo) {
+    image.width = PhotoStyle.WIDTH;
+    image.height = PhotoStyle.HEIGHT;
   }
 
-  image.style.borderRadius = ImageStyle.BORDER;
-  image.alt = ImageStyle.ALT[0];
+  image.style.borderRadius = BORDER;
+  image.alt = AvatarStyle.ALT;
 
-  if (divItem === preview) {
-    image.alt = ImageStyle.ALT[1];
+  if (container === preview) {
+    image.alt = PhotoStyle.ALT;
   }
 
   return image;
 };
 
-const removeItem = (item) => {
-  item.innerHTML = '';
-};
-
 const resetImage = () => {
   preview.firstChild.src = IMG_DEFAULT;
-  photo.innerHTML = '';
+  clearElement(photo);
 };
 
-const loadImage = (input, divItem) => {
-  input.addEventListener('change', () => {
-    const file = input.files[0];
-    const fileName = file.name.toLowerCase();
-
-    const matches = FILE_TYPES.some((fileExtension) => fileName.endsWith(fileExtension));
-
-    if (matches) {
-      const reader = new FileReader();
-
-      reader.addEventListener('load', () => {
-        removeItem(divItem);
-        divItem.appendChild(createImageItem(divItem));
-        divItem.firstChild.src = reader.result;
-      });
-
-      reader.readAsDataURL(file);
-    }
-  });
+const addElement = (container) => {
+  clearElement(container);
+  return container.appendChild(createImage(container));
 };
 
-loadImage(fileInputPreview, preview);
-loadImage(fileInputPhoto, photo);
+const onFileChange = (evt) => {
+  const file = evt.target.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((fileExtension) => fileName.endsWith(fileExtension));
+
+  if (matches) {
+    const reader = new FileReader();
+
+    reader.addEventListener('load', () => {
+      if (evt.target.id === 'avatar') {
+        return addElement(preview).src = reader.result;
+      }
+
+      addElement(photo).src = reader.result;
+    });
+
+    reader.readAsDataURL(file);
+  }
+};
+
+fileInputPreview.addEventListener('change', onFileChange);
+fileInputPhoto.addEventListener('change', onFileChange);
 
 export { resetImage };

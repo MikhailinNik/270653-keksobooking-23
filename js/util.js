@@ -1,16 +1,6 @@
-const ALERT_SHOW_TIME = 5000;
-const TIMEOUT = 500;
-const MAX_ADVERTS = 10;
+import { ALERT_SHOW_TIME, TIMEOUT } from './utils/consts.js';
 
-const setDisabled = (element) => {
-  element.disabled = true;
-};
-
-const unsetDisabled = (element) => {
-  element.disabled = false;
-};
-
-const showAlert = (message) => {
+const createContainer = (message) => {
   const alertContainer = document.createElement('div');
   const style = alertContainer.style;
 
@@ -26,12 +16,21 @@ const showAlert = (message) => {
 
   alertContainer.textContent = message;
 
-  document.body.append(alertContainer);
-
-  setTimeout(() => {
-    alertContainer.remove();
-  }, ALERT_SHOW_TIME);
+  return alertContainer;
 };
+
+const timeout = (timeoutId = ALERT_SHOW_TIME, callback) => {
+  setTimeout(() => {
+    const container = callback;
+    container.remove();
+  }, timeoutId);
+};
+
+const createAlert = ((message) => {
+  const container = createContainer(message);
+  document.body.append(container);
+  timeout(ALERT_SHOW_TIME, container);
+});
 
 const pluralize = (value, one, two, five) => {
   const mod100 = Math.abs(value % 100);
@@ -47,17 +46,19 @@ const pluralize = (value, one, two, five) => {
   return mod10 === 1 ? one : five;
 };
 
-const debounce = (callback, timeoutDelay) => {
-  timeoutDelay = TIMEOUT;
-
-  let timeoutId;
+const debounce = (callback, timeoutDelay = TIMEOUT) => {
+  let timeoutId = 0;
 
   return (...rest) => {
 
     clearTimeout(timeoutId);
 
-    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+    timeoutId = setTimeout(() => callback.apply(null, rest), timeoutDelay);
   };
 };
 
-export { setDisabled, unsetDisabled, showAlert, pluralize, debounce, MAX_ADVERTS };
+export {
+  createAlert,
+  pluralize,
+  debounce
+};

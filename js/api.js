@@ -1,4 +1,4 @@
-import { showAlert } from './util.js';
+import { createAlert } from './util.js';
 
 const RequestUrl = {
   GET: 'https://23.javascript.pages.academy/keksobooking/data',
@@ -13,9 +13,7 @@ const getData = (onSuccess) => {
     .then((adverts) => {
       onSuccess(adverts);
     })
-    .catch(() => {
-      showAlert('Не удалось получить данные');
-    });
+    .catch(() => createAlert('Не удалось получить данные'));
 };
 
 const sendData = (onSuccess, onFail, body) => {
@@ -27,9 +25,7 @@ const sendData = (onSuccess, onFail, body) => {
     .then((response) => {
       response.ok ? onSuccess() : onFail();
     })
-    .catch(() => {
-      onFail();
-    });
+    .catch(onFail);
 };
 
 export { getData, sendData };
