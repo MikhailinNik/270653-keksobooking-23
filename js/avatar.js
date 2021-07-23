@@ -26,6 +26,7 @@ const createImage = (container) => {
   image.src = '';
   image.width = AvatarStyle.WIDTH;
   image.height = AvatarStyle.HEIGHT;
+
   if (container === photo) {
     image.width = PhotoStyle.WIDTH;
     image.height = PhotoStyle.HEIGHT;
